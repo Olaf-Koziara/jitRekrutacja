@@ -63,11 +63,11 @@ export const CompanyForm = ({ onSubmit, onCancel, isLoading }: CompanyFormProps)
             />
           </FormField>
 
-          <div className="flex gap-3 pt-4">
+          <div className="flex pt-4 justify-between ">
             <Button type="button" variant="secondary" onClick={onCancel} disabled={isLoading}>
               Anuluj
             </Button>
-            <Button type="submit" loading={isLoading} className="flex-1">
+            <Button type="submit" loading={isLoading}>
               Wyślij
             </Button>
           </div>
