@@ -65,7 +65,7 @@ export const SMSVerification = ({
           {smsSent && (
             <>
               <Alert variant="success">
-                <p className="text-sm">Kod SMS został wysłany. Sprawdź swoją skrzynkę.</p>
+                <p className="text-sm">Kod SMS został wysłany. Sprawdź swoj telefon.</p>
               </Alert>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
