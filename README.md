@@ -132,6 +132,34 @@ src/
 │   └── validation/         # Zod schemas
 └── api/
 
+
+### Reusable UI Components (`components/ui/`)
+
+| Komponent | Props | Opis |
+|-----------|-------|------|
+| `Button` | `variant`, `loading`, `disabled`, `onClick` | Przycisk z loading state |
+| `Input` | `error`, `maxLength`, `inputMode`, `type` | Pole formularza |
+| `FormField` | `label`, `error`, `required`, `children` | Wrapper z labelką i błędem |
+| `Card` | `children` | Kontener z cieniem |
+| `Alert` | `variant: success \| error \| info`, `children` | Komunikaty |
+| `Stepper` | `steps: Step[]` | Wskaźnik postępu |
+| `LoadingSpinner` | `size: sm \| md \| lg` | Spinner ładowania |
+
+### Feature Components (`features/loan-application/`)
+
+| Komponent | Odpowiedzialność | Ekran |
+|-----------|------------------|-------|
+| `ApplicantForm` | Formularz: Imię, Nazwisko, PESEL | Krok 1 |
+| `CompanyForm` | Formularz: NIP, Dochód, Pracownicy | Krok 2 |
+| `ContractView` | Wyświetlenie warunków umowy | Krok 3 |
+| `SMSVerification` | Wysyłka i weryfikacja kodu SMS | Krok 3 |
+
+### Custom Hooks
+
+| Hook | Odpowiedzialność |
+|------|------------------|
+| `useApplication` | CRUD operacje na wniosku, cache React Query |
+| `useSmsVerification` | Wysyłka SMS, weryfikacja kodu, cooldown |
 ```
 
 ### Zarządzanie stanem
