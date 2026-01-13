@@ -109,6 +109,7 @@ interface ValidationError {
 ## Zadanie 2: Implementacja Frontend
 
 Jako rozwiązanie drugiego zadania zaimplementowałem prototyp aplikacji wraz z mockami, co pozwoliło mi wejść w szczegóły i lepiej zaprojektować architekturę komponentów.
+[Live Demo](https://task.olafwebdev.site)
 
 ### Struktura aplikacji
 
