@@ -4,6 +4,8 @@
 
 **Frontend:** React 18, TypeScript, React Query, React Hook Form, Zod, Shadcn UI, Tailwind CSS
 
+**CI/CD:** GitHub Actions (automatyczny deploy na VPS przy push do main)
+
 ---
 
 ## Zadanie 1: Projekt API
