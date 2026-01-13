@@ -6,11 +6,8 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   error?: boolean;
 }
 
-// TODO: Dodać auto-complete props handling
-// FIXME: focus state czasami nie działa poprawnie w Safari
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, error, ...props }, ref) => {
-    // console.log('Input rendered with error:', error); // debug
     return (
       <input
         type={type}
@@ -26,10 +23,5 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   }
 );
 Input.displayName = 'Input';
-
-// Stary kod - może się jeszcze przyda:
-// const InputOld = ({ value, onChange, ...props }) => {
-//   return <input value={value} onChange={onChange} {...props} />;
-// };
 
 export { Input };

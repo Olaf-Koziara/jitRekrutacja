@@ -11,8 +11,6 @@ export interface FormFieldProps {
   className?: string;
 }
 
-// TODO: Może dodać tooltip dla required fields?
-// FIXME: error message czasami się nie pokazuje przy szybkiej walidacji
 export const FormField = ({
   label,
   error,
@@ -22,17 +20,15 @@ export const FormField = ({
   className,
 }: FormFieldProps) => {
   return (
-    <div className={cn('mb-4 space-y-2', className)}>
+    <div className={cn('mb-2 space-y-1', className)}>
       <Label htmlFor={htmlFor} className="text-sm font-medium text-gray-700">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </Label>
       {children}
-      {error && (
-        <p className="text-sm text-red-600" role="alert">
-          {error}
-        </p>
-      )}
+      <p className="text-xs text-red-600 pb-1 realative" role="alert">
+        <span className="absolute">{error}</span>
+      </p>
     </div>
   );
 };
