@@ -154,9 +154,3 @@ cd frontend
 pnpm install
 pnpm dev
 ```
-
-### Docker
-
-```bash
-docker-compose up -d
-```
