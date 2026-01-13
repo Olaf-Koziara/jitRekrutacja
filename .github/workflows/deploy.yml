@@ -1,0 +1,90 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      skip_frontend:
+        description: "Skip frontend build"
+        required: false
+        default: false
+        type: boolean
+
+# Prevents parallel deployments
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  DEPLOY_PATH: /var/www/task
+
+jobs:
+  deploy:
+    name: Deploy Application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo "${{ secrets.SSH_HOST_KEY }}" >> ~/.ssh/known_hosts
+
+      - name: Pull latest changes
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << EOF
+            export DEPLOY_PATH="${{ env.DEPLOY_PATH }}"
+            cd "\$DEPLOY_PATH"
+            echo " Pulling latest changes..."
+            git fetch origin main
+            # Check for local changes and stash them if needed (preserving untracked files)
+            if ! git diff-index --quiet HEAD --; then
+              echo "Local changes detected, stashing..."
+              git stash push -m "Auto-stash before deployment $(date +%Y-%m-%d_%H:%M:%S)"
+            fi
+            # Attempt fast-forward merge, fallback to merge if needed
+            if ! git merge --ff-only origin/main; then
+              echo "Fast-forward not possible, attempting merge..."
+              git merge origin/main --no-edit || {
+                echo "Merge failed, aborting..."
+                git merge --abort
+                exit 1
+              }
+            fi
+            echo "Successfully updated to latest main"
+          EOF
+
+      - name: Build Frontend
+        if: ${{ github.event.inputs.skip_frontend != 'true' }}
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << EOF
+            export DEPLOY_PATH="${{ env.DEPLOY_PATH }}"
+            cd "\$DEPLOY_PATH/frontend"
+            echo "📦 Installing frontend dependencies..."
+            pnpm install --frozen-lockfile
+            echo "🔨 Building frontend..."
+            pnpm run build
+          EOF
+
+      - name: Cleanup SSH
+        if: always()
+        run: rm -rf ~/.ssh/deploy_key
+
+      - name: Deployment Summary
+        run: |
+          echo "## 🚀 Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Git Pull | Done |" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event.inputs.skip_frontend }}" != "true" ]; then
+            echo "| Frontend Build | Done |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Frontend Build | Skipped |" >> $GITHUB_STEP_SUMMARY
+          fi
