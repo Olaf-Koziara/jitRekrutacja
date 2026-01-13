@@ -112,14 +112,21 @@ Jako rozwiązanie drugiego zadania zaimplementowałem prototyp aplikacji wraz z 
 
 ### Struktura aplikacji
 
-```
-App (Router + React Query)
-└── Strona (każdy krok to osobna strona, np. ApplicantPage)
-    ├── Stepper (pasek postępu pokazuje aktualny krok)
-    └── Formularz (np. ApplicantForm)
-        ├── Alert (obsługa błędów)
-        └── Komponenty UI (Input, Button, Card...)
-```
+````
+
+src/
+├── App (Router + React Query)
+├── components/ui/          # Reusable UI (Button, Card, Input, Stepper...)
+├── features/loan-application/
+│   ├── components/         # Feature components
+│   │   ├── ApplicantForm   # Ekran 1: Dane wnioskodawcy
+│   │   ├── CompanyForm     # Ekran 2: Dane firmowe
+│   │   ├── ContractView    # Ekran 3: Umowa
+│   │   └── SMSVerification # Weryfikacja SMS
+│   ├── pages/              # Container components (routing)
+│   ├── hooks/              # useApplication, useSmsVerification
+│   └── validation/         # Zod schemas
+└── api/
 
 ### Zarządzanie stanem
 
@@ -141,7 +148,7 @@ cd jitRekrutacja
 cd frontend
 pnpm install
 pnpm dev
-```
+````
 
 ### Docker
 
