@@ -115,7 +115,7 @@ Jako rozwiązanie drugiego zadania zaimplementowałem prototyp aplikacji wraz z 
 
 ### Struktura aplikacji
 
-````
+```
 
 src/
 ├── App (Router + React Query)
@@ -130,6 +130,8 @@ src/
 │   ├── hooks/              # useApplication, useSmsVerification
 │   └── validation/         # Zod schemas
 └── api/
+
+```
 
 ### Zarządzanie stanem
 
@@ -151,7 +153,7 @@ cd jitRekrutacja
 cd frontend
 pnpm install
 pnpm dev
-````
+```
 
 ### Docker
 
