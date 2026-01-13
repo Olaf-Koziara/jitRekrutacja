@@ -36,5 +36,13 @@ export const companySchema = z.object({
     .max(10000, 'Liczba pracowników jest zbyt duża'),
 });
 
+export const smsCodeSchema = z.object({
+  smsCode: z
+    .string()
+    .length(6, 'Kod SMS musi zawierać dokładnie 6 cyfr')
+    .regex(/^\d{6}$/, 'Kod SMS musi zawierać tylko cyfry'),
+});
+
 export type ApplicantFormData = z.infer<typeof applicantSchema>;
 export type CompanyFormData = z.infer<typeof companySchema>;
+export type SmsCodeFormData = z.infer<typeof smsCodeSchema>;
