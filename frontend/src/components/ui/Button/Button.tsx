@@ -13,7 +13,7 @@ const buttonVariants = cva(
         primary: 'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 shadow',
         secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 active:bg-gray-400 shadow-sm',
         danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 shadow-sm',
-        default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
+        default: 'bg-primary text-primary-foreground shadow hover:bg-gray-100',
         destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         outline:
           'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
@@ -48,9 +48,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : 'button';
 
-    // TODO: Dodać tooltip dla disabled buttons
-    // FIXME: loading state czasami nie znika przy szybkich kliknięciach
-
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
@@ -65,10 +62,5 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 Button.displayName = 'Button';
-
-// Stary kod - może jeszcze się przyda:
-// const OldButton = ({ children, onClick }) => {
-//   return <button onClick={onClick}>{children}</button>
-// }
 
 export { Button, buttonVariants };
